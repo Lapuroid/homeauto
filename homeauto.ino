@@ -5,72 +5,76 @@
 const char* ssid = "Vivo 1901";
 const char* password = "Jul_2822";
 
-// GPIO pins connected to the LED and fan
+// GPIO pins for devices
 const int ledPin = D4;
-const int fanPin = D5;
-String ledStatus = "off";
-String fanStatus = "off";
+const int fanPin = D5; // Example pin for fan
 
 AsyncWebServer server(80);
 
 void setup() {
-  Serial.begin(115200); // For debugging
+  Serial.begin(115200); // Initialize serial communication
   pinMode(ledPin, OUTPUT);
   pinMode(fanPin, OUTPUT);
-  digitalWrite(ledPin, HIGH); // Initialize LED as off
-  digitalWrite(fanPin, HIGH); // Initialize fan as off
 
   // Connect to Wi-Fi network
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
-    Serial.println("Connecting to WiFi...");
+    Serial.print("Connecting to WiFi... ");
+    Serial.print(WiFi.status());
+    Serial.println();
   }
   Serial.println("Connected to WiFi");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(200, "text/html", "<html><body>OPEN THE WEBPAGE, NOT THIS</body></html>");
   });
 
-  // Route to control LED and fan with CORS headers
+  // Route to control devices
   server.on("/update", HTTP_POST, [](AsyncWebServerRequest *request) {
     if (request->hasParam("device", true) && request->hasParam("status", true)) {
       String device = request->getParam("device", true)->value();
       String status = request->getParam("status", true)->value();
+      Serial.print("Received request: Device = ");
+      Serial.print(device);
+      Serial.print(", Status = ");
+      Serial.println(status);
+
       AsyncWebServerResponse* response;
+
       if (device == "led") {
         if (status == "on") {
-          digitalWrite(ledPin, LOW);
-          ledStatus = "on";
+          digitalWrite(ledPin, LOW); // Turn on LED (assuming LOW is ON)
           response = request->beginResponse(200, "text/plain", "LED turned on");
         } else if (status == "off") {
-          digitalWrite(ledPin, HIGH);
-          ledStatus = "off";
+          digitalWrite(ledPin, HIGH); // Turn off LED (assuming HIGH is OFF)
           response = request->beginResponse(200, "text/plain", "LED turned off");
         } else {
-          response = request->beginResponse(400, "text/plain", "Invalid LED command");
+          response = request->beginResponse(400, "text/plain", "Invalid status for LED");
         }
       } else if (device == "fan") {
         if (status == "on") {
-          digitalWrite(fanPin, LOW);
-          fanStatus = "on";
+          digitalWrite(fanPin, LOW); // Turn on Fan (assuming LOW is ON)
           response = request->beginResponse(200, "text/plain", "Fan turned on");
         } else if (status == "off") {
-          digitalWrite(fanPin, HIGH);
-          fanStatus = "off";
+          digitalWrite(fanPin, HIGH); // Turn off Fan (assuming HIGH is OFF)
           response = request->beginResponse(200, "text/plain", "Fan turned off");
         } else {
-          response = request->beginResponse(400, "text/plain", "Invalid fan command");
+          response = request->beginResponse(400, "text/plain", "Invalid status for Fan");
         }
       } else {
         response = request->beginResponse(400, "text/plain", "Invalid device");
       }
+
       response->addHeader("Access-Control-Allow-Origin", "*");
       response->addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
       response->addHeader("Access-Control-Allow-Headers", "Content-Type");
       request->send(response);
     } else {
+      Serial.println("Error: Missing device or status parameter");
       AsyncWebServerResponse* response = request->beginResponse(400, "text/plain", "Missing device or status parameter");
       response->addHeader("Access-Control-Allow-Origin", "*");
       response->addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
@@ -89,13 +93,8 @@ void setup() {
   });
 
   server.begin();
-  Serial.println(WiFi.localIP());
 }
 
 void loop() {
-  Serial.print("LED status: ");
-  Serial.println(ledStatus);
-  Serial.print("Fan status: ");
-  Serial.println(fanStatus);
-  delay(2000);
+  // No need for code here
 }
