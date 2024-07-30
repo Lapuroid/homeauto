@@ -1,0 +1,130 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body styling */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #f7f7f7;
+    color: #333;
+}
+
+/* Container for the main content */
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+/* Title */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* IP Address input section */
+.ip-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.ip-section label {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.ip-section input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+    margin-right: 10px;
+}
+
+/* Button styling */
+button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Output and log sections */
+#output, #log {
+    margin-top: 20px;
+}
+
+#output {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#log p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .ip-section {
+        flex-direction: column;
+    }
+
+    .ip-section label, .ip-section input, .ip-section button {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    .ip-section input {
+        margin-right: 0;
+    }
+}
+
+/* Manual Control buttons section */
+.manual-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.manual-control h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.control-group {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.manual-control .btn {
+    margin: 0 5px;
+    width: auto;
+    max-width: none;
+}
