@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,3 +38,44 @@
     <script src="scripts.js"></script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME AUTOMATION</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>HOME AUTOMATION</h1>
+        <div class="ip-section">
+            <label for="ipaddress">NodeMCU IP Address: 192.168.</label>
+            <input type="text" id="ipaddress" name="ipaddress">
+            <button id="submitButton">Submit</button>
+        </div>
+        <p id="greeting"></p>
+        
+        <button id="start-recognition">Start Speech Recognition</button>
+        <div id="output"></div>
+        <div id="log"></div>
+
+        <div class="manual-control">
+            <h2>Manual Control</h2>
+            <div class="control-group">
+                <button class="btn" id="onbtn">TURN ON LED</button>
+                <button class="btn" id="offbtn">TURN OFF LED</button>
+            </div>
+            <div class="control-group">
+                <button class="btn" id="onbtnFan">TURN ON FAN</button>
+                <button class="btn" id="offbtnFan">TURN OFF FAN</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
+>>>>>>> ebb5c21665c52b2a3cb8971156106f6307e625fe
