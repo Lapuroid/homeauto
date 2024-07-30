@@ -8,10 +8,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to send data to ESP8266
     function turnDevice(device, status) {
+        console.log(`Sending command to turn ${status} ${device}.`);
         var xhr = new XMLHttpRequest();
         xhr.open("POST", `http://192.168.${ip}/update`, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(`device=${device}&status=${status}`);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log(`Successfully sent command to turn ${status} ${device}.`);
+            } else {
+                console.error(`Failed to send command. Status: ${xhr.status}`);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Request error.');
+        };
     }
 
     // Function to log messages
@@ -24,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to start speech recognition with duration
     function startRecognition(recognition, duration) {
+        console.log('Starting speech recognition.');
         recognition.start();
         logMessage('Speech recognition started.');
 
@@ -36,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up speech recognition
     function setupSpeechRecognition() {
         if (annyang) {
-            logMessage('Annyang is loaded and ready.');
+            console.log('Annyang is loaded and ready.');
             const commands = {
                 '*term': function(term) {
                     outputDiv.textContent = term;
@@ -47,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             annyang.addCommands(commands);
             startButton.addEventListener('click', function() {
+                console.log('Start recognition button clicked.');
                 try {
                     annyang.start({ autoRestart: false, continuous: false });
                     logMessage('Speech recognition started.');
@@ -77,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             startButton.addEventListener('click', function() {
+                console.log('Start recognition button clicked.');
                 startRecognition(recognition, 10000);
             });
         } else {
@@ -95,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to handle recognized commands
     function handleCommand(term) {
+        console.log(`Handling command: ${term}`);
         term = term.toLowerCase();
         if (term.includes("turn on led") && !term.includes("do not") && !term.includes("don't")) {
             turnDevice('led', 'on');
@@ -120,22 +135,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set IP address on submit
     document.getElementById('submitButton').addEventListener('click', function() {
         ip = document.getElementById('ipaddress').value;
+        console.log(`IP Address set to: 192.168.${ip}`);
         alert(`IP Address set to: 192.168.${ip}`);
     });
 
     document.getElementById('onbtn').addEventListener('click', function() {
+        console.log('LED ON button clicked.');
         turnDevice("led", "on");
     });
     document.getElementById('offbtn').addEventListener('click', function() {
+        console.log('LED OFF button clicked.');
         turnDevice("led", "off");
     });
-        document.getElementById('onbtnFan').addEventListener('click', function() {
-            turnDevice("fan", "on");
-        });
-        document.getElementById('offbtnFan').addEventListener('click', function() {
-            turnDevice("fan", "off");
-        });
-    
+    document.getElementById('onbtnFan').addEventListener('click', function() {
+        console.log('Fan ON button clicked.');
+        turnDevice("fan", "on");
+    });
+    document.getElementById('offbtnFan').addEventListener('click', function() {
+        console.log('Fan OFF button clicked.');
+        turnDevice("fan", "off");
+    });
 
     // Initialize speech recognition
     setupSpeechRecognition();
