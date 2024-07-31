@@ -2,8 +2,8 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 
-const char* ssid = "Vivo 1901";
-const char* password = "Jul_2822";
+const char* ssid = "wifi_name";
+const char* password = "wifi_pass";
 
 // GPIO pins for devices
 const int ledPin = D4;
